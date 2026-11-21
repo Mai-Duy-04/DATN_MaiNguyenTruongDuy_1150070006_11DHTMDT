@@ -1,0 +1,13 @@
+TourWebApp/**/bin/
+TourWebApp/**/obj/
+TourWebApp/**/.vs/
+
+TourWebApp/appsettings.json
+TourWebApp/appsettings.Development.json
+
+**/node_modules/
+**/.env
+**/.env.*
+**/secrets.json
+
+TourWebApp/wwwroot/videos/happytrip-cruise.mp4

@@ -1,0 +1,485 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="happy-home-page">
+
+<!-- HERO SLIDER -->
+<div id="heroCarousel" class="carousel slide carousel-fade"
+     data-bs-ride="carousel" data-bs-interval="3000">
+
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <div class="hero-slide" style="background-image:url('@Url.Content("~/img/hero/hero1.jpg")');"></div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image:url('@Url.Content("~/img/hero/hero2.jpg")');"></div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image:url('@Url.Content("~/img/hero/hero3.jpg")');"></div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image:url('@Url.Content("~/img/hero/hero4.jpg")');"></div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image:url('@Url.Content("~/img/hero/hero5.jpg")');"></div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="hero-slide" style="background-image:url('@Url.Content("~/img/hero/hero6.jpg")');"></div>
+        </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+    <!-- TEXT OVER SLIDER -->
+    <div class="hero-layer">
+        <div class="hero-text container hero-enter">
+            <h1>Khám phá Miền Nam</h1>
+            <p>Những hành trình đáng nhớ cùng HappyTrip – Tour du lịch uy tín, giá tốt.</p>
+            <a href="/Tour/TatCa" class="btn btn-cta">Xem Tour Ngay</a>
+        </div>
+    </div>
+</div>
+
+<!-- GIỚI THIỆU + ĐIỂM ĐẾN -->
+<section class="home-section reveal">
+    <div class="container">
+        <div class="row align-items-start g-4">
+
+            <div class="col-lg-6">
+                <h2 class="section-title">HappyTrip – Đồng hành cùng bạn khám phá Việt Nam</h2>
+                <p class="text-muted">
+                    HappyTrip là đơn vị tổ chức tour Miền Nam uy tín, tập trung vào trải nghiệm thực tế,
+                    ẩm thực địa phương và dịch vụ tận tâm. Phù hợp cho sinh viên, gia đình và nhóm bạn.
+                </p>
+
+                <ul class="list-unstyled mt-3">
+                    <li class="mb-2">✅ Lịch trình rõ ràng, tối ưu thời gian di chuyển</li>
+                    <li class="mb-2">🚌 Xe đưa đón tận nơi, hướng dẫn viên nhiệt tình</li>
+                    <li class="mb-2">🍜 Trải nghiệm ẩm thực vùng miền đặc sắc</li>
+                </ul>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="destinations-card">
+                    <h5 class="mb-3">Điểm đến nổi bật</h5>
+
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <h6 class="fw-bold mb-1">Sài Gòn</h6>
+                            <p class="small text-muted">Phố đi bộ, Nhà thờ Đức Bà, chợ Bến Thành…</p>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <h6 class="fw-bold mb-1">Miền Tây</h6>
+                            <p class="small text-muted">Chợ nổi, miệt vườn, đờn ca tài tử.</p>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <h6 class="fw-bold mb-1">Vũng Tàu</h6>
+                            <p class="small text-muted">Biển, hải sản, tượng Chúa Ki-tô, hải đăng.</p>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <h6 class="fw-bold mb-1">Đà Lạt</h6>
+                            <p class="small text-muted">Hoa, núi, khí hậu mát mẻ quanh năm.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- TOUR NỔI BẬT -->
+<section class="home-section home-highlight-section bg-light">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title mb-0">Tour nổi bật</h2>
+            <a asp-controller="Tour" asp-action="TatCa" class="small text-primary fw-semibold">
+                Xem tất cả tour →
+            </a>
+        </div>
+
+        <div class="row g-4 tour-feature-grid">
+    @{
+        var featuredIndex = 0;
+    }
+    @foreach (var tour in ViewBag.TourNoiBat)
+    {
+        <div class="col-lg-4 col-md-6 d-flex reveal" style="--stagger:@featuredIndex">
+            <article class="card home-tour-card border-0 shadow-sm flex-fill">
+
+                <div class="home-tour-media">
+                    <img src="@TourImagePathHelper.ToTourImageSrc(tour.HinhAnh)"
+                         class="card-img-top home-tour-image"
+                         loading="lazy"
+                         alt="@tour.TenTour" />
+                </div>
+
+                <div class="card-body home-tour-body d-flex flex-column">
+                    <h5 class="home-tour-title">@tour.TenTour</h5>
+                    <p class="home-tour-location">@tour.DiaDiem</p>
+
+                    <p class="home-tour-price">
+                        @if (tour.PhanTramGiam > 0)
+                        {
+                            <span class="home-tour-price-old">
+                                @String.Format("{0:N0}đ", tour.GiaGoc)
+                            </span>
+                        }
+                        <span class="home-tour-price-new @(tour.PhanTramGiam > 0 ? "ms-2" : "")">
+                            @String.Format("{0:N0}đ", tour.GiaKhuyenMai)
+                        </span>
+                    </p>
+                </div>
+
+                <div class="home-tour-action">
+                    <a asp-controller="Tour"
+                       asp-action="ChiTiet"
+                       asp-route-id="@tour.IdTour"
+                       class="home-tour-btn-solid">
+                        <span>Xem chi tiết</span>
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+        featuredIndex++;
+    }
+</div>
+
+    </div>
+</section>
+
+</div>
+
+
+
+<!-- MIỀN NAM – VÙNG ĐẤT CỦA NẮNG, GIÓ VÀ NỤ CƯỜI -->
+<section class="home-section bg-white">
+    <div class="container">
+
+        <h2 class="home-section-title text-center mb-4">
+            Miền Nam – Vùng đất của nắng, gió và nụ cười
+        </h2>
+
+        <p class="text-center text-muted mb-5" style="max-width:780px;margin:0 auto;">
+            Từ Sài Gòn hiện đại, miền Tây sông nước đến những bãi biển và cao nguyên lãng mạn –
+            HappyTrip đồng hành cùng bạn khám phá từng cung đường miền Nam.
+        </p>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="region-card h-100">
+                    <img src="~/img/home/saigon.jpg" asp-append-version="true" class="region-img" />
+                    <div class="p-3 text-center">
+                        <h5 class="fw-bold mb-2">Sài Gòn năng động</h5>
+                        <p class="text-muted small">
+                            Thành phố không ngủ với những toà nhà hiện đại và những góc phố xưa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="region-card h-100">
+                    <img src="~/img/home/mientay.jpg" asp-append-version="true" class="region-img" />
+                    <div class="p-3 text-center">
+                        <h5 class="fw-bold mb-2">Miền Tây sông nước</h5>
+                        <p class="text-muted small">
+                            Chợ nổi, miệt vườn, những dòng sông hiền hoà & con người chân chất.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="region-card h-100">
+                    <img src="~/img/home/biendao.jpg" asp-append-version="true" class="region-img" />
+                    <div class="p-3 text-center">
+                        <h5 class="fw-bold mb-2">Biển đảo & Cao nguyên</h5>
+                        <p class="text-muted small">
+                            Từ Vũng Tàu, Phan Thiết đến Đà Lạt – mỗi nơi mang một sắc thái riêng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- VÌ SAO CHỌN HAPPYTRIP -->
+<section class="home-section reveal">
+    <div class="container">
+        <h2 class="section-title text-center mb-4">Vì sao nên chọn HappyTrip?</h2>
+        <p class="text-center text-muted mb-5" style="max-width:780px;margin:0 auto;">
+            Chúng mình không chỉ bán tour, mà muốn tạo nên những trải nghiệm nhẹ nhàng,
+            an toàn và vui vẻ cho từng chuyến đi của bạn.
+        </p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <div class="icon-circle">🚌</div>
+                    <h5 class="fw-bold mb-2">Lịch trình linh hoạt</h5>
+                    <p class="text-muted small mb-0">
+                        Thiết kế phù hợp cho sinh viên, gia đình, nhóm bạn; có thể điều chỉnh theo nhu cầu.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <div class="icon-circle">👩‍✈️</div>
+                    <h5 class="fw-bold mb-2">Hướng dẫn viên thân thiện</h5>
+                    <p class="text-muted small mb-0">
+                        Team HDV trẻ, vui tính, hiểu rõ địa phương, hỗ trợ chụp ảnh & chăm sóc suốt hành trình.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <div class="icon-circle">💰</div>
+                    <h5 class="fw-bold mb-2">Chi phí rõ ràng</h5>
+                    <p class="text-muted small mb-0">
+                        Báo giá trọn gói, không phát sinh “ẩn”; nhiều lựa chọn tiết kiệm cho nhóm đông.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- KHÁCH HÀNG NÓI GÌ VỀ HAPPYTRIP -->
+<section class="home-section testimonial-section">
+    <div class="container">
+        <h2 class="home-section-title text-center mb-3">
+            Khách hàng nói gì về HappyTrip?
+        </h2>
+        <p class="text-center text-muted mb-4">
+            Một vài cảm nhận thực tế từ những chuyến đi gần đây của khách nhà HappyTrip.
+        </p>
+
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+            <!-- Dấu chấm slide -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2"></button>
+            </div>
+
+            <div class="carousel-inner">
+
+                <!-- SLIDE 1 -->
+                <div class="carousel-item active">
+                    <div class="testimonial-card mx-auto">
+                        <div class="testimonial-avatar">
+                            <!-- Nếu sau này có ảnh thật thì đổi src ở đây -->
+                            <img src="~/img/icons/user-1.png" asp-append-version="true" alt="Khách hàng" />
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-quote-icon">“</div>
+                            <p class="testimonial-text">
+                                “Tour Cần Thơ rất vui, lịch trình gọn nhưng vẫn đủ trải nghiệm.
+                                Hướng dẫn viên nhiệt tình, chụp ảnh có tâm.”
+                            </p>
+                            <div class="testimonial-author">
+                                Thanh Hằng – Nhóm bạn 5 người, Cần Thơ 2N1Đ
+                            </div>
+                            <div class="testimonial-tag">
+                                Tour Cần Thơ – Chợ nổi Cái Răng
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 2 -->
+                <div class="carousel-item">
+                    <div class="testimonial-card mx-auto">
+                        <div class="testimonial-avatar">
+                            <img src="~/img/icons/user-2.png" asp-append-version="true" alt="Khách hàng" />
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-quote-icon">“</div>
+                            <p class="testimonial-text">
+                                “Gia đình mình có bé nhỏ nhưng đi Đà Lạt vẫn rất ổn, xe sạch,
+                                khách sạn gần trung tâm, lịch trình không quá mệt.”
+                            </p>
+                            <div class="testimonial-author">
+                                Anh Hoàng – Gia đình 4 người, Đà Lạt 3N2Đ
+                            </div>
+                            <div class="testimonial-tag">
+                                Combo Đà Lạt – Gia đình
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDE 3 -->
+                <div class="carousel-item">
+                    <div class="testimonial-card mx-auto">
+                        <div class="testimonial-avatar">
+                            <img src="~/img/icons/user-3.png" asp-append-version="true" alt="Khách hàng" />
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-quote-icon">“</div>
+                            <p class="testimonial-text">
+                                “Mình ấn tượng nhất là đồ ăn địa phương, HappyTrip chọn quán rất ổn.
+                                Xe đưa đón đúng giờ, không phải chờ lâu.”
+                            </p>
+                            <div class="testimonial-author">
+                                Minh Tâm – Nhóm sinh viên, Vũng Tàu 2N1Đ
+                            </div>
+                            <div class="testimonial-tag">
+                                Tour Vũng Tàu – Biển & Ẩm thực
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Nút next/prev (nếu muốn ẩn thì xoá 2 button này) -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- GÓC BLOG -->
+<section class="home-section bg-light reveal">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title mb-0">Góc blog du lịch</h2>
+            <a href="/Blog" class="small text-primary fw-semibold">Xem tất cả bài viết →</a>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <article class="card blog-card hover-lift h-100">
+                    <img src="~/img/blog/blog1.jpg" asp-append-version="true" class="blog-thumb" />
+                    <div class="card-body">
+                        <h5>Kinh nghiệm đi chợ nổi Cái Răng lần đầu</h5>
+                        <p class="text-muted small">Đi giờ nào đẹp? Ăn gì? Mua gì? Bài này giải thích hết.</p>
+                        <a href="#" class="small fw-semibold text-primary">Đọc tiếp</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-4">
+                <article class="card blog-card hover-lift h-100">
+                    <img src="~/img/blog/blog2.jpg" asp-append-version="true" class="blog-thumb" />
+                    <div class="card-body">
+                        <h5>Checklist đồ cần mang khi đi Đà Lạt 3N2Đ</h5>
+                        <p class="text-muted small">Không lo thiếu đồ, quên áo lạnh hay phụ kiện sống ảo.</p>
+                        <a href="#" class="small fw-semibold text-primary">Đọc tiếp</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-4">
+                <article class="card blog-card hover-lift h-100">
+                    <img src="~/img/blog/blog3.jpg" asp-append-version="true" class="blog-thumb" />
+                    <div class="card-body">
+                        <h5>Ăn gì ở Sài Gòn trong 1 ngày?</h5>
+                        <p class="text-muted small">Foodtour Sài Gòn cho người mới đến lần đầu.</p>
+                        <a href="#" class="small fw-semibold text-primary">Đọc tiếp</a>
+                    </div>
+                </article>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section mt-5">
+    <!-- Hình nền -->
+    <img src="~/img/home/cta-bg.jpg"
+         alt="HappyTrip CTA"
+         class="cta-bg" />
+
+    <!-- Nội dung -->
+    <div class="cta-overlay">
+        <div class="container">
+            <h2 class="fw-bold mb-3">Sẵn sàng cho chuyến đi tiếp theo?</h2>
+            <p class="mb-4" style="max-width:720px;margin:0 auto;">
+                HappyTrip luôn sẵn sàng đồng hành cùng bạn trên mọi hành trình.
+            </p>
+            <a href="/Home/Contact" class="btn btn-cta">
+                Liên hệ tư vấn ngay
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ĐỐI TÁC & THƯƠNG HIỆU ĐỒNG HÀNH -->
+<section class="home-section partners-section bg-white">
+    <div class="container text-center">
+
+        <h2 class="home-section-title mb-4">Đối tác & Thương hiệu đồng hành</h2>
+        <p class="text-muted mb-5" style="max-width:720px;margin:0 auto;">
+            HappyTrip hân hạnh hợp tác cùng các hãng hàng không, hệ thống đặt phòng
+            và nền tảng du lịch uy tín tại Việt Nam.
+        </p>
+
+        <div class="row justify-content-center align-items-center g-4 partner-grid">
+
+            <div class="col-6 col-md-4 col-lg-2 reveal" style="--stagger:0">
+                <div class="partner-chip">
+                    <img src="~/img/partners/vnairlines.png" class="partner-logo logo-vna" alt="Vietnam Airlines" />
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2 reveal" style="--stagger:1">
+                <div class="partner-chip">
+                    <img src="~/img/partners/vietjet.png" class="partner-logo logo-vietjet" alt="Vietjet Air" />
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2 reveal" style="--stagger:2">
+                <div class="partner-chip">
+                    <img src="~/img/partners/bamboo.png" class="partner-logo logo-bamboo" alt="Bamboo Airways" />
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2 reveal" style="--stagger:3">
+                <div class="partner-chip">
+                    <img src="~/img/partners/booking.png" class="partner-logo logo-booking" alt="Booking.com" />
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2 reveal" style="--stagger:4">
+                <div class="partner-chip">
+                    <img src="~/img/partners/traveloka.png" class="partner-logo logo-traveloka" alt="Traveloka" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>

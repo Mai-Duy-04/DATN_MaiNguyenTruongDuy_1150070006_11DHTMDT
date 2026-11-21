@@ -1,0 +1,1413 @@
+
+/* ==========================================================
+   HAPPYTRIP - TRAVEL ADMIN LIGHT
+   ========================================================== */
+
+:root {
+    --app-font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+    --bs-body-font-family: var(--app-font-family);
+
+    --admin-bg-1: #f8faf5;
+    --admin-bg-2: #f1f7ef;
+    --admin-ink: #183e2d;
+    --admin-ink-soft: #718777;
+    --admin-border: #e0ebe0;
+    --admin-card: #ffffff;
+    --admin-shadow: 0 12px 34px rgba(32, 91, 56, 0.07);
+
+    --sidebar-a: #ffffff;
+    --sidebar-b: #fffef9;
+    --sidebar-width: 268px;
+
+    --brand-a: #169452;
+    --brand-b: #25794c;
+
+    --ht-green-dark: #104a34;
+    --ht-green: #1e8551;
+    --ht-green-light: #e9f5e9;
+
+    --ht-yellow: #ffc94e;
+    --ht-orange: #f28c62;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.admin-body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--app-font-family);
+    color: var(--admin-ink);
+    background:
+        radial-gradient(
+            circle at 92% 0%,
+            rgba(217, 240, 225, .45),
+            transparent 34%
+        ),
+        linear-gradient(
+            135deg,
+            #fbfcf7 0%,
+            #f4f9f2 55%,
+            #f8faf5 100%
+        );
+}
+
+.admin-body button,
+.admin-body input,
+.admin-body select,
+.admin-body textarea,
+.admin-body .btn {
+    font-family: var(--app-font-family);
+}
+
+.admin-wrapper {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    min-height: 100vh;
+}
+
+/* ==========================================================
+   SIDEBAR
+   ========================================================== */
+
+.admin-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 55;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    min-width: 0;
+    height: 100vh;
+
+    padding: 22px 14px 15px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    color: #2b5c43;
+
+    background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #fffef9 65%,
+        #f8faf2 100%
+    );
+
+    border-right: 1px solid #e1eadf;
+    box-shadow: 5px 0 25px rgba(24, 70, 44, .035);
+
+    scrollbar-width: thin;
+    scrollbar-color: #cddfce transparent;
+}
+
+.admin-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background: #cddfce;
+    border-radius: 10px;
+}
+
+.admin-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ==========================================================
+   BRAND
+   ========================================================== */
+
+.admin-logo,
+.ht-admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    min-height: 69px;
+    padding: 5px 7px 10px;
+    flex-shrink: 0;
+}
+
+.ht-admin-brand-icon {
+    position: relative;
+
+    display: grid;
+    place-items: center;
+
+    width: 47px;
+    height: 47px;
+    flex: 0 0 47px;
+
+    color: #ffffff;
+    font-size: 22px;
+
+    border-radius: 15px;
+
+    background: linear-gradient(
+        135deg,
+        #0c7042 0%,
+        #2da05c 100%
+    );
+
+    box-shadow: 0 8px 20px rgba(29, 126, 75, .15);
+}
+
+.ht-admin-brand-icon > i {
+    color: #fff8df;
+}
+
+.ht-admin-brand-plane {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+
+    display: grid;
+    place-items: center;
+
+    width: 22px;
+    height: 22px;
+
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+
+    background: #ffc844;
+    color: #176643;
+
+    font-size: 10px;
+    transform: rotate(-25deg);
+}
+
+.logo-text-wrap {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    line-height: 1.12;
+}
+
+.logo-text {
+    display: block;
+
+    font-size: 1.43rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    white-space: nowrap;
+}
+
+.ht-brand-happy {
+    color: #127042;
+}
+
+.ht-brand-trip {
+    color: #efb82f;
+}
+
+.logo-text-wrap small {
+    margin-top: 5px;
+
+    color: #7b9381;
+
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+/* ==========================================================
+   BRAND LANDSCAPE
+   ========================================================== */
+
+.ht-admin-brand-landscape {
+    position: relative;
+
+    height: 43px;
+    margin: 0 7px 6px;
+
+    overflow: hidden;
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: linear-gradient(
+        180deg,
+        #f9fcf5 0%,
+        #eaf5e8 100%
+    );
+}
+
+.ht-admin-brand-landscape svg {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.ht-admin-sidebar-divider {
+    height: 1px;
+    margin: 2px 7px 12px;
+    flex-shrink: 0;
+    background: #e5eee3;
+}
+
+/* ==========================================================
+   NAVIGATION
+   ========================================================== */
+
+.ht-admin-navigation {
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+.admin-menu,
+.admin-group-panel {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.admin-menu li {
+    min-width: 0;
+}
+
+.menu-title {
+    margin: 22px 12px 9px;
+    padding: 0;
+
+    color: #8a9d8d;
+
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: 1.45px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================
+   SHARED MENU LINK DESIGN
+   ========================================================== */
+
+.admin-menu li a.ht-admin-nav-link {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    min-height: 43px;
+    margin: 3px 0;
+    padding: 10px 13px;
+    gap: 9px;
+
+    color: #365543;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    background: transparent;
+
+    font-size: .81rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+
+    transition:
+        color .2s ease,
+        background .2s ease,
+        transform .2s ease,
+        border-color .2s ease;
+}
+
+.admin-menu li a.ht-admin-nav-link i {
+    width: 19px;
+    flex: 0 0 19px;
+
+    text-align: center;
+    font-size: .91rem;
+    color: #397f58;
+}
+
+.admin-menu li a.ht-admin-nav-link span {
+    min-width: 0;
+}
+
+.admin-menu li a.ht-admin-nav-link:hover {
+    color: #11653e;
+    background: #eff8ed;
+    border-color: #e0eddf;
+    transform: translateX(2px);
+}
+
+.admin-menu li a.ht-admin-nav-link.active {
+    color: #ffffff !important;
+
+    background: linear-gradient(
+        105deg,
+        #32a15e 0%,
+        #177b49 100%
+    ) !important;
+
+    border-color: transparent !important;
+    box-shadow: 0 6px 15px rgba(34, 143, 83, .16);
+}
+
+.admin-menu li a.ht-admin-nav-link.active i,
+.admin-menu li a.ht-admin-nav-link.active span {
+    color: #ffffff;
+}
+
+.admin-menu li a.ht-admin-nav-link.active::before {
+    display: none;
+}
+
+.admin-menu li a.ht-admin-nav-link.active:hover {
+    transform: none;
+}
+
+.admin-menu li a.ht-admin-nav-link:focus-visible {
+    outline: 3px solid rgba(244, 190, 68, .6);
+    outline-offset: 2px;
+}
+
+/* ==========================================================
+   OVERVIEW ITEM
+   ========================================================== */
+
+.admin-overview-item {
+    margin-bottom: 14px;
+}
+
+.admin-menu li a.admin-overview-link {
+    min-height: 46px;
+    font-weight: 800;
+}
+
+/* ==========================================================
+   COLLAPSIBLE GROUPS
+   ========================================================== */
+
+.admin-menu-section {
+    margin: 5px 0;
+}
+
+.admin-group-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 48px;
+
+    padding: 11px 12px;
+    gap: 10px;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    background: transparent;
+    color: #285b40;
+
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 800;
+    line-height: 1.45;
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.admin-group-toggle:hover {
+    background: #eff8ed;
+    color: #12663e;
+}
+
+.admin-group-toggle.is-open,
+.admin-group-toggle[aria-expanded="true"] {
+    color: #156e43;
+    background: #eaf5e9;
+    border-color: #d8e9d8;
+}
+
+.admin-group-toggle:focus-visible {
+    outline: 3px solid rgba(244, 190, 68, .6);
+    outline-offset: 2px;
+}
+
+.admin-group-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    min-width: 0;
+    flex: 1;
+}
+
+.admin-group-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 23px;
+    flex: 0 0 23px;
+
+    color: #278252;
+    font-size: .96rem;
+}
+
+.admin-group-title {
+    min-width: 0;
+    line-height: 1.45;
+}
+
+.admin-group-chevron {
+    flex-shrink: 0;
+
+    color: #829b88;
+    font-size: .7rem;
+
+    transition: transform .2s ease;
+}
+
+.admin-group-toggle.is-open .admin-group-chevron,
+.admin-group-toggle[aria-expanded="true"] .admin-group-chevron {
+    transform: rotate(180deg);
+}
+
+/* ==========================================================
+   GROUP PANEL
+   ========================================================== */
+
+.admin-group-panel {
+    margin: 5px 0 10px 12px;
+    padding: 3px 0 3px 10px;
+
+    border-left: 2px solid #d8e9d8;
+}
+
+.admin-group-panel[hidden] {
+    display: none !important;
+}
+
+.admin-group-panel.is-open {
+    display: block;
+}
+
+.admin-group-panel li {
+    margin: 2px 0;
+}
+
+.admin-menu .admin-group-panel li a.ht-admin-nav-link {
+    min-height: 39px;
+    margin: 2px 0;
+    padding: 9px 10px;
+
+    gap: 7px;
+
+    font-size: .77rem;
+    font-weight: 600;
+    line-height: 1.4;
+
+    border-radius: 9px;
+}
+
+.admin-menu .admin-group-panel li a.ht-admin-nav-link i {
+    width: 17px;
+    flex: 0 0 17px;
+    font-size: .83rem;
+}
+
+.admin-menu .admin-group-panel li a.ht-admin-nav-link.active {
+    font-weight: 700;
+}
+
+.admin-menu .admin-group-panel li a.ht-admin-nav-link.active:hover {
+    transform: none;
+}
+
+/* ==========================================================
+   PENDING CASH BADGE
+   ========================================================== */
+
+.menu-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 24px;
+    min-height: 23px;
+
+    padding: 2px 7px;
+    margin-left: auto;
+    flex-shrink: 0;
+
+    border-radius: 999px;
+
+    color: #ffffff;
+    background: #f28b62;
+
+    font-size: .7rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.admin-menu li a.active .menu-badge {
+    color: #88490e;
+    background: #fff0bb;
+}
+
+/* ==========================================================
+   ACCOUNT SECTION
+   ========================================================== */
+
+.admin-account-title {
+    margin-top: 23px;
+}
+
+/* ==========================================================
+   LOGOUT FORM / POST BUTTON
+   ========================================================== */
+
+.ht-admin-logout-form {
+    display: block;
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+}
+
+.admin-menu li .ht-admin-logout-button {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    min-height: 43px;
+
+    margin: 3px 0;
+    padding: 10px 13px;
+    gap: 9px;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    background: transparent;
+    color: #8c5a40;
+
+    font-family: var(--app-font-family);
+    font-size: .81rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: left;
+
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+
+    transition:
+        color .2s ease,
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+.admin-menu li .ht-admin-logout-button i {
+    display: inline-block;
+
+    width: 19px;
+    flex: 0 0 19px;
+
+    color: #d17c5b;
+
+    text-align: center;
+    font-size: .91rem;
+}
+
+.admin-menu li .ht-admin-logout-button span {
+    min-width: 0;
+    color: inherit;
+}
+
+.admin-menu li .ht-admin-logout-button:hover {
+    color: #a84b34;
+    background: #fff0e8;
+    border-color: #f5ddce;
+    transform: translateX(2px);
+}
+
+.admin-menu li .ht-admin-logout-button:hover i {
+    color: #c46d4d;
+}
+
+.admin-menu li .ht-admin-logout-button:active {
+    background: #fbe5dc;
+    transform: translateX(0);
+}
+
+.admin-menu li .ht-admin-logout-button:focus-visible {
+    outline: 3px solid rgba(244, 190, 68, .6);
+    outline-offset: 2px;
+}
+
+.admin-menu li .ht-admin-logout-button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ==========================================================
+   SIDEBAR BOTTOM TRAVEL DECORATION
+   ========================================================== */
+
+.ht-admin-sidebar-bottom {
+    position: relative;
+    flex-shrink: 0;
+
+    min-height: 172px;
+    margin-top: 28px;
+    padding: 15px 12px 12px;
+
+    overflow: hidden;
+
+    border: 1px solid #e0eedb;
+    border-radius: 17px;
+
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(255, 213, 107, .3),
+            transparent 42%
+        ),
+        linear-gradient(
+            180deg,
+            #f9fdf6 0%,
+            #e8f4e6 100%
+        );
+}
+
+.ht-admin-travel-doodle {
+    position: relative;
+    height: 45px;
+}
+
+.ht-admin-doodle-plane {
+    position: absolute;
+    top: -2px;
+    right: 8px;
+    z-index: 2;
+
+    color: #e8ad23;
+    font-size: 25px;
+
+    transform: rotate(-17deg);
+}
+
+.ht-admin-doodle-route {
+    position: absolute;
+
+    top: 18px;
+    left: 30px;
+    right: 36px;
+
+    height: 25px;
+
+    border-top: 2px dashed #e9b741;
+    border-radius: 50%;
+
+    transform: rotate(-9deg);
+}
+
+.ht-admin-doodle-location {
+    position: absolute;
+    top: 19px;
+    left: 14px;
+
+    color: #2d995c;
+    font-size: 18px;
+}
+
+.ht-admin-travel-caption {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 9px;
+
+    color: #276c45;
+
+    font-size: .79rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.ht-admin-travel-caption i {
+    margin-right: 4px;
+    color: #e9b432;
+}
+
+.ht-admin-travel-art {
+    position: absolute;
+
+    bottom: 10px;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    gap: 24px;
+}
+
+.ht-admin-travel-art i:nth-child(1) {
+    color: #dcaa5d;
+    font-size: 32px;
+}
+
+.ht-admin-travel-art i:nth-child(2) {
+    color: #2e7857;
+    font-size: 23px;
+}
+
+.ht-admin-travel-art i:nth-child(3) {
+    color: #f1bb48;
+    font-size: 30px;
+}
+
+/* ==========================================================
+   MAIN LAYOUT
+   ========================================================== */
+
+.admin-main {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 100vh;
+}
+
+.admin-content {
+    flex: 1;
+    min-width: 0;
+
+    padding: 20px 22px 26px;
+
+    animation: admin-content-enter .3s ease;
+}
+
+@keyframes admin-content-enter {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================
+   TOPBAR COMPATIBILITY
+   ========================================================== */
+
+.admin-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin: 14px 18px 0;
+    padding: 12px 16px;
+
+    border: 1px solid #e1ecdf;
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, .96);
+    box-shadow: var(--admin-shadow);
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.topbar-title {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    line-height: 1.2;
+}
+
+.topbar-title span {
+    color: #78947c;
+
+    font-size: .72rem;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.topbar-title strong {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #144b33;
+
+    font-size: 1.02rem;
+    font-weight: 800;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.topbar-user {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.user-chip {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 8px 14px;
+
+    color: #205f40;
+    background: #eff7ed;
+
+    border: 1px solid #dcebdc;
+    border-radius: 999px;
+
+    font-size: .83rem;
+    font-weight: 700;
+}
+
+/* ==========================================================
+   MOBILE MENU BUTTON
+   ========================================================== */
+
+.admin-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #2ba05b,
+        #157448
+    );
+
+    border: 0;
+    border-radius: 12px;
+
+    box-shadow: 0 7px 18px rgba(30, 139, 81, .2);
+
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+.admin-menu-toggle:hover {
+    transform: translateY(-2px);
+}
+
+.admin-menu-toggle-floating {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 65;
+}
+
+/* ==========================================================
+   MOBILE OVERLAY
+   ========================================================== */
+
+.admin-overlay {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+
+    padding: 0;
+    border: 0;
+
+    background: rgba(20, 52, 35, .38);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .25s ease;
+}
+
+.admin-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.admin-body:has(.admin-sidebar.show) .admin-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.admin-body:has(.admin-sidebar.show) {
+    overflow: hidden;
+}
+
+/* ==========================================================
+   COMMON TYPOGRAPHY
+   ========================================================== */
+
+.admin-content h1,
+.admin-content h2,
+.admin-content h3,
+.admin-content h4,
+.admin-content h5,
+.admin-content h6 {
+    color: #164d35;
+    font-family: var(--app-font-family);
+}
+
+.admin-content .text-muted,
+.admin-content small.text-muted {
+    color: var(--admin-ink-soft) !important;
+}
+
+/* ==========================================================
+   COMMON CARDS
+   ========================================================== */
+
+.admin-content .card {
+    border: 1px solid #e1ebdf;
+    border-radius: 17px;
+
+    background: #ffffff;
+    box-shadow: 0 9px 26px rgba(30, 79, 46, .055);
+}
+
+.admin-content .card.shadow-sm,
+.admin-content .card.card-body,
+.admin-content .chart-card {
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-content .card-body,
+.admin-content .card-header,
+.admin-content .card-footer {
+    border-color: #e0eae0;
+}
+
+.admin-content .card-header {
+    background: #f8fbf7;
+}
+
+/* ==========================================================
+   TABLES
+   ========================================================== */
+
+.admin-content .table {
+    margin-bottom: 0;
+    border-color: #e1eae1;
+}
+
+.admin-content .table thead th {
+    border: 0;
+
+    font-size: .78rem;
+    font-weight: 800;
+
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+.admin-content .table-dark th,
+.admin-content .table thead.table-dark th {
+    color: #ffffff;
+
+    background: linear-gradient(
+        90deg,
+        #16633f,
+        #258454
+    ) !important;
+}
+
+.admin-content .table-light th,
+.admin-content .table thead.table-light th {
+    color: #24543b;
+    background: #eaf4e9 !important;
+}
+
+.admin-content .table tbody tr {
+    transition: background-color .2s ease;
+}
+
+.admin-content .table tbody tr:hover {
+    background: rgba(220, 241, 222, .3);
+}
+
+.admin-content .table > :not(caption) > * > * {
+    padding: .73rem .7rem;
+}
+
+/* ==========================================================
+   FORMS
+   ========================================================== */
+
+.admin-content .form-label {
+    color: #285b40;
+    font-weight: 700;
+}
+
+.admin-content .form-control,
+.admin-content .form-select {
+    min-height: 42px;
+
+    color: #214b36;
+
+    border: 1px solid #d6e5d6;
+    border-radius: 11px;
+
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.admin-content .form-control:focus,
+.admin-content .form-select:focus {
+    border-color: #58a87a;
+    box-shadow: 0 0 0 .2rem rgba(33, 142, 82, .12);
+}
+
+.admin-content .form-control::placeholder {
+    color: #96aa9a;
+}
+
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
+
+.admin-content .btn {
+    padding: .5rem .95rem;
+
+    border-radius: 11px;
+
+    font-weight: 700;
+    box-shadow: none;
+}
+
+.admin-content .btn-primary {
+    color: #ffffff;
+    border: 0;
+
+    background: linear-gradient(
+        135deg,
+        #27a25d,
+        #197648
+    );
+}
+
+.admin-content .btn-primary:hover {
+    color: #ffffff;
+    background: #12673e;
+}
+
+.admin-content .btn-success {
+    color: #ffffff;
+    border: 0;
+
+    background: linear-gradient(
+        135deg,
+        #2ca768,
+        #178253
+    );
+}
+
+.admin-content .btn-danger {
+    color: #ffffff;
+    border: 0;
+
+    background: linear-gradient(
+        135deg,
+        #dc645b,
+        #c94c43
+    );
+}
+
+.admin-content .btn-outline-secondary {
+    color: #466c52;
+    border-color: #bad4bd;
+    background: #ffffff;
+}
+
+.admin-content .btn-outline-secondary:hover {
+    color: #185b39;
+    border-color: #8fbe9b;
+    background: #edf7ee;
+}
+
+.admin-content .btn-outline-primary {
+    color: #1c794d;
+    border-color: #89c5a0;
+    background: #ffffff;
+}
+
+.admin-content .btn-outline-primary:hover {
+    color: #ffffff;
+    border-color: #218250;
+    background: #218250;
+}
+
+/* ==========================================================
+   ALERTS AND BADGES
+   ========================================================== */
+
+.admin-content .alert {
+    border: 0;
+    border-radius: 13px;
+
+    box-shadow: 0 7px 21px rgba(22, 67, 36, .05);
+}
+
+.admin-content .badge {
+    font-weight: 700;
+    letter-spacing: .01em;
+}
+
+/* ==========================================================
+   ACTION BUTTONS
+   ========================================================== */
+
+.action-group {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    color: #ffffff;
+
+    border: 0;
+    border-radius: 10px;
+
+    transition:
+        transform .2s ease,
+        filter .2s ease;
+}
+
+.btn-action.view {
+    background: #259f91;
+}
+
+.btn-action.edit {
+    background: #3685bb;
+}
+
+.btn-action.lock {
+    color: #5d4719;
+    background: #f5c85b;
+}
+
+.btn-action.unlock {
+    background: #25a66b;
+}
+
+.btn-action.delete {
+    background: #dc665c;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px) scale(1.04);
+    filter: brightness(1.04);
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.admin-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    margin: 0 22px 17px;
+    padding: 12px 16px;
+
+    color: #7d9580;
+    background: rgba(255, 255, 255, .72);
+
+    border: 1px solid #e4ede1;
+    border-radius: 13px;
+
+    text-align: center;
+
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.ht-admin-footer-separator {
+    color: #deba52;
+}
+
+/* ==========================================================
+   RESPONSIVE LAPTOP
+   ========================================================== */
+
+@media (max-width: 1199.98px) {
+    :root {
+        --sidebar-width: 248px;
+    }
+
+    .admin-content {
+        padding: 18px 16px 24px;
+    }
+
+    .admin-menu li a.ht-admin-nav-link {
+        font-size: .77rem;
+    }
+
+    .admin-group-toggle {
+        font-size: .79rem;
+    }
+
+    .admin-menu li .ht-admin-logout-button {
+        font-size: .77rem;
+    }
+
+    .logo-text {
+        font-size: 1.3rem;
+    }
+}
+
+/* ==========================================================
+   RESPONSIVE TABLET AND MOBILE
+   ========================================================== */
+
+@media (max-width: 991.98px) {
+    .admin-wrapper {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .admin-sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+
+        width: min(85vw, 310px);
+        height: 100dvh;
+
+        transform: translateX(-106%);
+        transition: transform .27s ease;
+    }
+
+    .admin-sidebar.show {
+        transform: translateX(0);
+    }
+
+    .admin-overlay {
+        display: block;
+    }
+
+    .admin-menu-toggle {
+        display: inline-flex;
+    }
+
+    .admin-main {
+        min-height: 100vh;
+    }
+
+    .admin-content {
+        padding: 66px 12px 20px;
+    }
+
+    .admin-footer {
+        margin: 0 12px 12px;
+    }
+
+    .admin-group-toggle {
+        min-height: 46px;
+    }
+
+    .admin-group-panel {
+        margin-left: 9px;
+    }
+}
+
+/* ==========================================================
+   RESPONSIVE SMALL MOBILE
+   ========================================================== */
+
+@media (max-width: 575.98px) {
+    .admin-content {
+        padding: 65px 9px 18px;
+    }
+
+    .admin-content .card {
+        border-radius: 13px;
+    }
+
+    .admin-content .table > :not(caption) > * > * {
+        padding: .6rem .45rem;
+    }
+
+    .admin-content .btn {
+        font-size: .8rem;
+    }
+
+    .admin-footer {
+        flex-wrap: wrap;
+        font-size: .68rem;
+        text-align: center;
+    }
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-content,
+    .admin-sidebar,
+    .admin-menu li a,
+    .admin-menu-toggle,
+    .admin-group-toggle,
+    .admin-group-chevron,
+    .ht-admin-logout-button,
+    .btn-action {
+        animation: none !important;
+        transition: none !important;
+    }
+}

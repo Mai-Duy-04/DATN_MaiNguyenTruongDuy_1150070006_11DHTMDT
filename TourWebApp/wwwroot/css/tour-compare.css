@@ -1,0 +1,1363 @@
+
+/* =========================================================
+   HAPPYTRIP - TOUR COMPARISON
+   Version: Clean Travel Explorer
+   ========================================================= */
+
+.ht-compare-page {
+    --cmp-green: #173f30;
+    --cmp-green-dark: #103326;
+    --cmp-green-deep: #0d2d21;
+    --cmp-green-soft: #eaf3e7;
+    --cmp-cream: #faf7f0;
+    --cmp-paper: #fffdf9;
+    --cmp-gold: #ad7c35;
+    --cmp-orange: #bc572b;
+    --cmp-border: #e8e4dc;
+    --cmp-text: #233b30;
+    --cmp-muted: #748177;
+    --cmp-shadow: 0 12px 35px rgba(39, 53, 42, .09);
+
+    min-height: 100vh;
+    color: var(--cmp-text);
+    background:
+        radial-gradient(
+            circle at 8% 25%,
+            rgba(229, 219, 195, .22),
+            transparent 34%
+        ),
+        linear-gradient(
+            180deg,
+            #f9f7f2 0%,
+            #fffdf9 54%,
+            #f7f5ef 100%
+        );
+
+    font-family: "Segoe UI", Arial, sans-serif;
+    overflow-x: clip;
+}
+
+.ht-compare-page *,
+.ht-compare-page *::before,
+.ht-compare-page *::after {
+    box-sizing: border-box;
+}
+
+.ht-compare-page button,
+.ht-compare-page input {
+    font-family: inherit;
+}
+
+.ht-compare-page a {
+    text-decoration: none;
+}
+
+.ht-compare-page img {
+    display: block;
+    max-width: 100%;
+}
+
+.ht-compare-shell {
+    width: min(1430px, calc(100% - 64px));
+    margin-inline: auto;
+}
+
+/* =========================================================
+   01. HERO BANNER
+   ========================================================= */
+
+.ht-compare-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 220px;
+    overflow: hidden;
+    background: #dce9e3;
+}
+
+.ht-compare-hero__image {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+
+    background-size: cover;
+    background-position: center 46%;
+    background-repeat: no-repeat;
+
+    transform: scale(1.025);
+}
+
+.ht-compare-hero__veil {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+
+    background: linear-gradient(
+        90deg,
+        rgba(251, 251, 247, .98) 0%,
+        rgba(251, 251, 247, .95) 29%,
+        rgba(251, 251, 247, .73) 48%,
+        rgba(251, 251, 247, .18) 79%,
+        rgba(251, 251, 247, .02) 100%
+    );
+}
+
+.ht-compare-hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 34px;
+    z-index: -1;
+
+    background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(250, 247, 240, .23)
+    );
+}
+
+.ht-compare-hero__inner {
+    min-height: 220px;
+
+    display: flex;
+    align-items: center;
+
+    padding-block: 33px;
+}
+
+.ht-compare-hero__content {
+    width: min(760px, 100%);
+}
+
+.ht-compare-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 12px;
+
+    color: var(--cmp-green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+.ht-compare-eyebrow i {
+    font-size: 15px;
+    color: var(--cmp-gold);
+}
+
+.ht-compare-hero h1 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin: 0 0 12px;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: clamp(31px, 3.2vw, 48px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -.8px;
+
+    color: var(--cmp-green-dark);
+}
+
+.ht-compare-hero h1 > i {
+    flex-shrink: 0;
+    font-size: clamp(29px, 2.6vw, 40px);
+    color: #daa12d;
+}
+
+.ht-compare-hero p {
+    margin: 0;
+    max-width: 580px;
+
+    color: #3d5146;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+/* Không sử dụng khung ảnh nghiêng cũ */
+
+.ht-compare-hero__photo {
+    display: none !important;
+}
+
+/* =========================================================
+   02. MAIN CONTENT
+   ========================================================= */
+
+.ht-compare-main {
+    padding-top: 22px;
+    padding-bottom: 55px;
+}
+
+/* =========================================================
+   03. TOOLBAR
+   ========================================================= */
+
+.ht-compare-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+
+    margin-bottom: 21px;
+}
+
+.ht-compare-toolbar__right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ht-compare-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 42px;
+    padding: 10px 18px;
+
+    color: var(--cmp-green-dark);
+    background: rgba(255, 255, 255, .94);
+
+    border: 1px solid #e5ded1;
+    border-radius: 999px;
+
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 700;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease,
+        color .2s ease;
+}
+
+.ht-compare-button:hover {
+    color: var(--cmp-green-dark);
+    background: #eff6ed;
+    border-color: #c5d9c7;
+
+    transform: translateY(-2px);
+    box-shadow: 0 6px 17px rgba(16, 55, 33, .08);
+}
+
+.ht-compare-button:focus-visible {
+    outline: 3px solid rgba(35, 107, 67, .3);
+    outline-offset: 3px;
+}
+
+.ht-compare-button > i {
+    font-size: 13px;
+}
+
+.ht-compare-button--solid {
+    color: #fff;
+    background: var(--cmp-green);
+    border-color: var(--cmp-green);
+}
+
+.ht-compare-button--solid:hover {
+    color: #fff;
+    background: #256247;
+    border-color: #256247;
+}
+
+.ht-compare-button--danger {
+    color: #a32e27;
+}
+
+.ht-compare-button--danger:hover {
+    color: #a32e27;
+    background: #fff0ee;
+    border-color: #eec8c4;
+}
+
+.ht-compare-button--small {
+    min-height: 36px;
+    padding: 8px 13px;
+    font-size: 12px;
+}
+
+.ht-compare-button[hidden] {
+    display: none !important;
+}
+
+/* =========================================================
+   04. EMPTY STATE
+   ========================================================= */
+
+.ht-compare-empty {
+    width: min(650px, 100%);
+    margin: 38px auto 70px;
+    padding: 58px 28px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+
+    background: #fff;
+    border: 1px solid var(--cmp-border);
+    border-radius: 23px;
+
+    box-shadow: var(--cmp-shadow);
+    text-align: center;
+}
+
+.ht-compare-empty > i {
+    font-size: 48px;
+    color: var(--cmp-gold);
+}
+
+.ht-compare-empty h2 {
+    margin: 0;
+    color: var(--cmp-green);
+    font-size: 25px;
+}
+
+.ht-compare-empty p {
+    max-width: 420px;
+    margin: 0 0 8px;
+
+    color: var(--cmp-muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   05. MAIN LAYOUT
+   ========================================================= */
+
+.ht-compare-layout {
+    display: grid;
+    grid-template-columns: minmax(230px, 270px) minmax(0, 1fr);
+    align-items: start;
+    gap: 23px;
+}
+
+.ht-compare-content {
+    min-width: 0;
+}
+
+/* =========================================================
+   06. OVERVIEW SIDEBAR
+   ========================================================= */
+
+.ht-compare-overview {
+    position: relative;
+    overflow: hidden;
+
+    min-height: 375px;
+    padding: 21px 17px 120px;
+
+    background: linear-gradient(
+        145deg,
+        #f2f4e7 0%,
+        #ecf2e2 58%,
+        #e6efdf 100%
+    );
+
+    border: 1px solid #e6eadb;
+    border-radius: 22px;
+}
+
+.ht-compare-overview h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 19px 4px;
+
+    color: var(--cmp-green-dark);
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 800;
+}
+
+.ht-compare-overview h2 i {
+    color: #315e42;
+    font-size: 19px;
+}
+
+.ht-compare-overview__stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 10px;
+    padding: 13px 12px;
+
+    background: rgba(255, 255, 255, .91);
+    border: 1px solid rgba(235, 238, 230, .9);
+    border-radius: 14px;
+}
+
+.ht-compare-overview__icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    color: #265a3c;
+    background: #eaf5d8;
+    border-radius: 50%;
+}
+
+.ht-compare-overview__icon i {
+    font-size: 17px;
+}
+
+.ht-compare-overview__stat > span:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.ht-compare-overview__stat small {
+    color: #53675a;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.ht-compare-overview__stat strong {
+    color: var(--cmp-green-dark);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+/* Phần ghi chú cũ đã bỏ ở Razor */
+
+.ht-compare-overview__tip {
+    display: none !important;
+}
+
+/* =========================================================
+   07. DECORATIVE LANDSCAPE
+   ========================================================= */
+
+.ht-compare-overview__landscape {
+    position: absolute;
+    inset: auto 0 0;
+
+    height: 118px;
+    overflow: hidden;
+
+    background: linear-gradient(
+        180deg,
+        rgba(235, 243, 221, 0),
+        #c8dfbd
+    );
+}
+
+.ht-compare-overview__sun {
+    position: absolute;
+    top: 9px;
+    right: 32px;
+
+    width: 37px;
+    height: 37px;
+
+    border-radius: 50%;
+    background: #f8edc1;
+}
+
+.ht-compare-overview__mountain {
+    position: absolute;
+    display: block;
+
+    width: 125%;
+    left: -10%;
+
+    clip-path: polygon(
+        0 100%,
+        14% 61%,
+        25% 79%,
+        46% 13%,
+        64% 71%,
+        80% 35%,
+        100% 88%,
+        100% 100%
+    );
+}
+
+.ht-compare-overview__mountain--back {
+    bottom: 8px;
+    height: 90px;
+    background: #a9cfa9;
+}
+
+.ht-compare-overview__mountain--front {
+    bottom: -22px;
+    height: 90px;
+    background: #6fab80;
+    transform: scaleX(-1);
+}
+
+.ht-compare-overview__landscape > i {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    z-index: 1;
+
+    font-size: 22px;
+    color: #f4d28c;
+
+    filter: drop-shadow(0 3px 2px rgba(38, 70, 37, .2));
+}
+
+/* =========================================================
+   08. TOUR CARDS
+   ========================================================= */
+
+.ht-compare-cards {
+    display: grid;
+    grid-template-columns: repeat(
+        var(--compare-columns, 2),
+        minmax(0, 1fr)
+    );
+
+    gap: 18px;
+    align-items: stretch;
+}
+
+.ht-compare-tour {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    overflow: hidden;
+
+    background: var(--cmp-paper);
+    border: 1px solid #ece7df;
+    border-radius: 21px;
+
+    box-shadow: 0 10px 26px rgba(34, 54, 41, .09);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.ht-compare-tour:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 32px rgba(34, 54, 41, .14);
+}
+
+/* Image */
+
+.ht-compare-tour__photo {
+    position: relative;
+
+    height: 195px;
+    overflow: hidden;
+
+    background: #e3eae0;
+}
+
+.ht-compare-tour__photo img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition: transform .45s ease;
+}
+
+.ht-compare-tour:hover .ht-compare-tour__photo img {
+    transform: scale(1.045);
+}
+
+.ht-compare-tour__photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, .12),
+        transparent 55%
+    );
+
+    pointer-events: none;
+}
+
+/* Number badge */
+
+.ht-compare-tour__number {
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    z-index: 2;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 12px;
+
+    color: #233a23;
+    background: #f2f8dc;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    box-shadow: 0 4px 12px rgba(10, 40, 20, .08);
+}
+
+.ht-compare-tour__number i {
+    color: #a17b2f;
+}
+
+/* Remove button */
+
+.ht-compare-tour__remove {
+    position: absolute;
+    top: 13px;
+    right: 14px;
+    z-index: 3;
+
+    width: 35px;
+    height: 35px;
+
+    display: grid;
+    place-items: center;
+
+    color: #234637;
+    background: #fff;
+
+    border: 1px solid rgba(230, 232, 221, .7);
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 13px rgba(0, 0, 0, .1);
+
+    transition:
+        background .2s,
+        color .2s,
+        transform .2s;
+}
+
+.ht-compare-tour__remove:hover {
+    color: #c23f33;
+    background: #fff1ed;
+    transform: rotate(90deg);
+}
+
+/* =========================================================
+   09. CARD CONTENT
+   ========================================================= */
+
+.ht-compare-tour__body {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 18px 19px 19px;
+}
+
+.ht-compare-tour__body h3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+
+    min-height: 0;
+    max-height: 75px;
+    overflow: hidden;
+
+    margin: 0 0 13px;
+
+    color: var(--cmp-green-dark);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.38;
+    font-weight: 800;
+}
+
+.ht-compare-tour__meta {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+
+    margin-bottom: 9px;
+
+    color: #42594b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.ht-compare-tour__meta i {
+    width: 17px;
+    flex-shrink: 0;
+
+    margin-top: 2px;
+
+    color: #34714d;
+    text-align: center;
+    font-size: 12px;
+}
+
+.ht-compare-tour__meta span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   10. PRICE AND ACTIONS
+   ========================================================= */
+
+.ht-compare-tour__footer {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: auto;
+    padding-top: 18px;
+}
+
+.ht-compare-tour__price {
+    flex: 1;
+    min-width: 110px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ht-compare-tour__price small {
+    color: #866b52;
+    font-size: 11px;
+}
+
+.ht-compare-tour__price strong {
+    color: var(--cmp-orange);
+    font-size: clamp(19px, 1.65vw, 24px);
+    line-height: 1.25;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.ht-compare-tour__best {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 7px 10px;
+
+    color: #24633d;
+    background: #e4f6d3;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.ht-compare-tour__footer .ht-compare-button {
+    min-height: 37px;
+    padding: 8px 13px;
+    font-size: 12px;
+}
+
+/* =========================================================
+   11. COMPARISON TABLE PANEL
+   ========================================================= */
+
+.ht-compare-details {
+    margin-top: 20px;
+    padding: 18px 17px 17px;
+
+    background: #fff;
+
+    border: 1px solid #eae6dd;
+    border-radius: 21px;
+
+    box-shadow: 0 10px 24px rgba(32, 49, 36, .075);
+}
+
+.ht-compare-details__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-bottom: 16px;
+}
+
+.ht-compare-details__head h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0;
+
+    color: var(--cmp-green-dark);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.ht-compare-details__head h2 i {
+    color: #336c4c;
+}
+
+.ht-compare-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+
+    border: 1px solid #e7e4da;
+    border-radius: 14px;
+}
+
+/* =========================================================
+   12. TABLE GRID
+   ========================================================= */
+
+.ht-compare-table {
+    --cmp-table-label-width: 175px;
+
+    width: 100%;
+    min-width: 690px;
+}
+
+.ht-compare-table__row {
+    display: grid;
+
+    grid-template-columns:
+        var(--cmp-table-label-width)
+        repeat(
+            var(--compare-columns, 2),
+            minmax(175px, 1fr)
+        );
+
+    border-bottom: 1px solid #e8e6df;
+}
+
+.ht-compare-table__row:last-child {
+    border-bottom: 0;
+}
+
+.ht-compare-table__row--header {
+    background: #eff2e6;
+}
+
+.ht-compare-table__label,
+.ht-compare-table__cell {
+    display: flex;
+    align-items: center;
+
+    min-width: 0;
+    padding: 11px 12px;
+
+    font-size: 12px;
+    line-height: 1.45;
+
+    border-right: 1px solid #e8e6df;
+    overflow-wrap: anywhere;
+}
+
+.ht-compare-table__label {
+    gap: 9px;
+
+    color: #314a3b;
+    background: #faf9f5;
+
+    font-weight: 700;
+}
+
+.ht-compare-table__label i {
+    width: 17px;
+
+    color: #286241;
+    font-size: 12px;
+    text-align: center;
+}
+
+.ht-compare-table__cell {
+    justify-content: center;
+    text-align: center;
+    color: #35483b;
+}
+
+.ht-compare-table__row--header .ht-compare-table__label,
+.ht-compare-table__row--header .ht-compare-table__cell {
+    color: #214331;
+    background: #eff2e6;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.ht-compare-table__label:last-child,
+.ht-compare-table__cell:last-child {
+    border-right: 0;
+}
+
+.ht-compare-table__row:not(
+    .ht-compare-table__row--header
+):hover .ht-compare-table__cell {
+    background: #fbfcf8;
+}
+
+/* Price emphasis */
+
+.ht-compare-table__cell--price {
+    color: #9d4524;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.ht-compare-table__cell--price.is-best {
+    color: #174d2f;
+    background: #e6f7d4;
+}
+
+.ht-compare-table__row:hover
+.ht-compare-table__cell--price.is-best {
+    background: #ddf3c7;
+}
+
+/* =========================================================
+   13. STATUS
+   ========================================================= */
+
+.ht-compare-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    line-height: 1.3;
+    font-weight: 700;
+    white-space: normal;
+}
+
+.ht-compare-status--open {
+    color: #238047;
+    background: #e3f6e6;
+}
+
+.ht-compare-status--full {
+    color: #c13b2b;
+    background: #ffe5e2;
+}
+
+.ht-compare-status--unknown {
+    color: #906b3e;
+    background: #f5eee2;
+}
+
+/* =========================================================
+   14. HIDE SAME ROWS
+   ========================================================= */
+
+.ht-compare-table__row.is-same-hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   15. TOAST
+   ========================================================= */
+
+.ht-compare-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    z-index: 9999;
+
+    max-width: min(450px, calc(100vw - 32px));
+    padding: 13px 21px;
+
+    color: #fff;
+    background: var(--cmp-green);
+
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 12px;
+
+    box-shadow: 0 12px 35px rgba(13, 43, 28, .25);
+
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translate(-50%, 18px);
+
+    transition:
+        opacity .24s ease,
+        transform .24s ease,
+        visibility .24s ease;
+}
+
+.ht-compare-toast.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+/* =========================================================
+   16. 3-4 TOUR MODE
+   ========================================================= */
+
+.ht-compare-page[style*="--compare-columns:3"]
+.ht-compare-layout,
+.ht-compare-page[style*="--compare-columns:4"]
+.ht-compare-layout {
+    grid-template-columns: 230px minmax(0, 1fr);
+}
+
+.ht-compare-page[style*="--compare-columns:3"]
+.ht-compare-cards,
+.ht-compare-page[style*="--compare-columns:4"]
+.ht-compare-cards {
+    gap: 12px;
+}
+
+.ht-compare-page[style*="--compare-columns:3"]
+.ht-compare-tour__body,
+.ht-compare-page[style*="--compare-columns:4"]
+.ht-compare-tour__body {
+    padding: 14px 12px;
+}
+
+.ht-compare-page[style*="--compare-columns:3"]
+.ht-compare-tour__body h3,
+.ht-compare-page[style*="--compare-columns:4"]
+.ht-compare-tour__body h3 {
+    font-size: 15px;
+}
+
+.ht-compare-page[style*="--compare-columns:3"]
+.ht-compare-tour__photo,
+.ht-compare-page[style*="--compare-columns:4"]
+.ht-compare-tour__photo {
+    height: 150px;
+}
+
+.ht-compare-page[style*="--compare-columns:4"]
+.ht-compare-tour__price strong {
+    font-size: 17px;
+}
+
+.ht-compare-page[style*="--compare-columns:4"]
+.ht-compare-tour__footer .ht-compare-button {
+    width: 100%;
+}
+
+/* =========================================================
+   17. LAPTOP RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1280px) {
+    .ht-compare-shell {
+        width: min(1180px, calc(100% - 40px));
+    }
+
+    .ht-compare-layout {
+        grid-template-columns: 235px minmax(0, 1fr);
+        gap: 17px;
+    }
+
+    .ht-compare-tour__photo {
+        height: 175px;
+    }
+
+    .ht-compare-tour__body {
+        padding: 16px;
+    }
+
+    .ht-compare-tour__body h3 {
+        font-size: 16px;
+    }
+
+    .ht-compare-tour__footer .ht-compare-button {
+        width: 100%;
+    }
+
+    .ht-compare-page[style*="--compare-columns:4"]
+    .ht-compare-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* =========================================================
+   18. TABLET RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1024px) {
+    .ht-compare-hero,
+    .ht-compare-hero__inner {
+        min-height: 205px;
+    }
+
+    .ht-compare-layout,
+    .ht-compare-page[style*="--compare-columns:3"]
+    .ht-compare-layout,
+    .ht-compare-page[style*="--compare-columns:4"]
+    .ht-compare-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ht-compare-overview {
+        width: 100%;
+        min-height: unset;
+        padding: 18px;
+    }
+
+    .ht-compare-overview h2 {
+        margin-bottom: 15px;
+    }
+
+    .ht-compare-overview__landscape {
+        display: none;
+    }
+
+    .ht-compare-overview__stat {
+        display: inline-flex;
+        vertical-align: top;
+
+        width: calc(33.333% - 10px);
+        min-height: 77px;
+        margin-right: 10px;
+    }
+
+    .ht-compare-overview__stat:nth-of-type(3) {
+        margin-right: 0;
+    }
+
+    .ht-compare-content {
+        width: 100%;
+    }
+
+    .ht-compare-page[style*="--compare-columns:3"]
+    .ht-compare-cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ht-compare-page[style*="--compare-columns:4"]
+    .ht-compare-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* =========================================================
+   19. MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 720px) {
+    .ht-compare-shell {
+        width: calc(100% - 28px);
+    }
+
+    .ht-compare-hero,
+    .ht-compare-hero__inner {
+        min-height: 225px;
+    }
+
+    .ht-compare-hero__inner {
+        padding-block: 32px;
+    }
+
+    .ht-compare-hero__veil {
+        background: linear-gradient(
+            90deg,
+            rgba(250, 250, 245, .97),
+            rgba(250, 250, 245, .75)
+        );
+    }
+
+    .ht-compare-eyebrow {
+        font-size: 10px;
+        letter-spacing: 1.2px;
+    }
+
+    .ht-compare-hero h1 {
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 31px;
+        letter-spacing: -.4px;
+    }
+
+    .ht-compare-hero h1 > i {
+        margin-top: 3px;
+        font-size: 25px;
+    }
+
+    .ht-compare-hero p {
+        font-size: 13px;
+        line-height: 1.65;
+    }
+
+    .ht-compare-main {
+        padding-top: 17px;
+        padding-bottom: 40px;
+    }
+
+    .ht-compare-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ht-compare-toolbar__right {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ht-compare-toolbar__right .ht-compare-button {
+        width: 100%;
+    }
+
+    .ht-compare-button--back {
+        align-self: flex-start;
+    }
+
+    .ht-compare-overview {
+        padding: 17px 14px;
+        border-radius: 18px;
+    }
+
+    .ht-compare-overview h2 {
+        font-size: 17px;
+    }
+
+    .ht-compare-overview__stat {
+        display: flex;
+        width: 100%;
+        min-height: unset;
+
+        margin-right: 0;
+        margin-bottom: 9px;
+        padding: 12px;
+    }
+
+    .ht-compare-cards,
+    .ht-compare-page[style*="--compare-columns:3"]
+    .ht-compare-cards,
+    .ht-compare-page[style*="--compare-columns:4"]
+    .ht-compare-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .ht-compare-tour__photo,
+    .ht-compare-page[style*="--compare-columns:3"]
+    .ht-compare-tour__photo,
+    .ht-compare-page[style*="--compare-columns:4"]
+    .ht-compare-tour__photo {
+        height: 200px;
+    }
+
+    .ht-compare-tour__body,
+    .ht-compare-page[style*="--compare-columns:3"]
+    .ht-compare-tour__body,
+    .ht-compare-page[style*="--compare-columns:4"]
+    .ht-compare-tour__body {
+        padding: 18px;
+    }
+
+    .ht-compare-tour__body h3,
+    .ht-compare-page[style*="--compare-columns:3"]
+    .ht-compare-tour__body h3,
+    .ht-compare-page[style*="--compare-columns:4"]
+    .ht-compare-tour__body h3 {
+        font-size: 18px;
+    }
+
+    .ht-compare-details {
+        padding: 17px 12px;
+        border-radius: 18px;
+    }
+
+    .ht-compare-details__head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ht-compare-details__head h2 {
+        font-size: 17px;
+    }
+
+    .ht-compare-table {
+        --cmp-table-label-width: 145px;
+    }
+
+    .ht-compare-table__label,
+    .ht-compare-table__cell {
+        padding: 10px;
+        font-size: 11px;
+    }
+}
+
+/* =========================================================
+   20. SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 390px) {
+    .ht-compare-hero h1 {
+        font-size: 27px;
+    }
+
+    .ht-compare-toolbar__right {
+        gap: 7px;
+    }
+
+    .ht-compare-toolbar__right .ht-compare-button {
+        padding: 10px 8px;
+        font-size: 11px;
+    }
+
+    .ht-compare-tour__footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ht-compare-tour__footer .ht-compare-button {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   21. ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .ht-compare-page *,
+    .ht-compare-page *::before,
+    .ht-compare-page *::after {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+}

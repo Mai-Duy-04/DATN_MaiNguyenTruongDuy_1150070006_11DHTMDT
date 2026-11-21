@@ -1,0 +1,629 @@
+﻿
+@model TourWebApp.Data.Models.DonDatTour
+@using TourWebApp.Helpers
+@using System
+
+@{
+    ViewData["Title"] = "Chi tiết đơn đặt tour";
+    Layout = "_Layout";
+
+    var tour = Model.IdTourNavigation;
+    var lich = Model.IdLichNavigation;
+
+    var tenTour = tour?.TenTour ?? "Tour đang cập nhật";
+    var maBooking = Model.MaBooking ?? "---";
+
+    var anhGoc = tour?.HinhAnh;
+    var coAnh = !string.IsNullOrWhiteSpace(anhGoc);
+    var anhTour = coAnh
+        ? TourImagePathHelper.ToTourImageSrc(anhGoc, "")
+        : "";
+
+    var nguoiLon = Model.NguoiLon;
+    var treEm = Model.TreEm;
+    var treNho = Model.TreNho;
+    var tongKhach = nguoiLon + treEm + treNho;
+
+    var tongGoc = Model.TongTien;
+    var soTienGiam = Model.SoTienGiam ?? 0;
+    var tongSauGiam = Model.TongTienSauGiam
+        ?? (tongGoc - soTienGiam);
+
+    if (tongSauGiam < 0)
+    {
+        tongSauGiam = 0;
+    }
+
+    var ngayKhoiHanh = lich?.NgayKhoiHanh;
+    var gioKhoiHanh = lich?.GioKhoiHanh;
+
+    var ngayKhoiHanhText = ngayKhoiHanh?
+        .ToString("dd/MM/yyyy") ?? "Đang cập nhật";
+
+    var gioKhoiHanhText = gioKhoiHanh.HasValue
+        ? gioKhoiHanh.Value.ToString("HH:mm")
+        : "Đang cập nhật";
+
+    var tenNguoiDat = Model.IdTaiKhoanNavigation?.HoTen
+        ?? "Đang cập nhật";
+
+    var emailNguoiDat = Model.IdTaiKhoanNavigation?.Email;
+    var soDienThoai = Model.IdTaiKhoanNavigation?.SoDienThoai;
+
+    var maPhieu = Model.MaPhieuGiamGia;
+    var ghiChu = Model.GhiChu;
+
+    var trangThai = Model.TrangThai ?? "";
+    var trangThaiThanhToan = Model.TrangThaiThanhToan;
+    var phuongThuc = Model.PhuongThucTT;
+
+    var daThanhToan =
+        trangThai == "ThanhToanThanhCong" ||
+        trangThai == "HoanTat" ||
+        Model.DaThanhToan;
+
+    var daHuy =
+        trangThai == "DaHuy" ||
+        trangThai == "HetHanThanhToan";
+
+    var trangThaiText = trangThai switch
+    {
+        "ChoThanhToan" => "Chờ thanh toán",
+        "ChoXacNhanTienMat" => "Chờ xác nhận tiền mặt",
+        "ThanhToanThanhCong" => "Đã thanh toán",
+        "HoanTat" => "Hoàn tất",
+        "DaHuy" => "Đã hủy",
+        "HetHanThanhToan" => "Hết hạn thanh toán",
+        "ThanhToanThatBai" => "Thanh toán thất bại",
+        _ => string.IsNullOrWhiteSpace(trangThai)
+            ? "Đang cập nhật"
+            : trangThai
+    };
+
+    var trangThaiCss = daHuy
+        ? "is-cancelled"
+        : daThanhToan
+            ? "is-success"
+            : "is-pending";
+
+    var thanhToanText = daThanhToan
+        ? "Đã thanh toán"
+        : daHuy
+            ? "Không còn hiệu lực"
+            : "Chưa thanh toán";
+
+    var ngayDatText = Model.NgayDat.ToString("dd/MM/yyyy HH:mm");
+
+    var ngayThanhToanText = Model.NgayThanhToan.HasValue
+        ? Model.NgayThanhToan.Value.ToString("dd/MM/yyyy HH:mm")
+        : "Chưa có";
+
+    var checkInToken = ViewBag.CheckInToken as string;
+
+    // Giu nguyen cach tao QR cua he thong hien tai.
+    var checkinUrl = !string.IsNullOrWhiteSpace(checkInToken)
+        ? Url.Action(
+            "ScanCheckIn",
+            "QuanLyDon",
+            new { token = checkInToken },
+            Context.Request.Scheme)
+        : null;
+
+    var checkinQrUrl = !string.IsNullOrWhiteSpace(checkinUrl)
+        ? $"https://api.qrserver.com/v1/create-qr-code/?size=240x240&data={Uri.EscapeDataString(checkinUrl)}"
+        : null;
+
+    var hienThiQr = daThanhToan
+        && !daHuy
+        && !string.IsNullOrWhiteSpace(checkinQrUrl);
+}
+
+<link rel="stylesheet"
+      href="~/css/booking-ticket.css"
+      asp-append-version="true" />
+
+<div class="ticket-page">
+    <div class="booking-ticket">
+
+        <!-- HEADER -->
+
+        <header class="ticket-header">
+            <div class="ticket-header-copy">
+                <p class="ticket-kicker">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    HAPPYTRIP · TRAVEL E-TICKET
+                </p>
+
+                <h1>Chi tiết hành trình</h1>
+
+                <p>
+                    Thông tin đặt tour và vé điện tử
+                    của bạn trong một trang.
+                </p>
+            </div>
+
+            <div class="ticket-head-meta">
+                <span class="ticket-code-caption">MÃ BOOKING</span>
+                <strong class="ticket-booking-code">
+                    @maBooking
+                </strong>
+
+                <span class="ticket-status @trangThaiCss">
+                    <i class="fa-solid fa-circle"></i>
+                    @trangThaiText
+                </span>
+            </div>
+        </header>
+
+        <!-- BOOKING STATUS -->
+
+        <div class="ticket-progress-horizontal">
+
+            <div class="hp-step done">
+                <span class="hp-step-icon">
+                    <i class="fa-solid fa-check"></i>
+                </span>
+
+                <div>
+                    <strong>Đã tạo đơn</strong>
+                    <small>@ngayDatText</small>
+                </div>
+            </div>
+
+            <div class="hp-step @(daThanhToan ? "done" : daHuy ? "cancel" : "wait")">
+                <span class="hp-step-icon">
+                    <i class="fa-solid @(daThanhToan ? "fa-check" : daHuy ? "fa-xmark" : "fa-clock")"></i>
+                </span>
+
+                <div>
+                    <strong>@thanhToanText</strong>
+                    <small>
+                        @(daThanhToan
+                            ? ngayThanhToanText
+                            : "Theo trạng thái đơn")
+                    </small>
+                </div>
+            </div>
+
+            <div class="hp-step wait">
+                <span class="hp-step-icon">
+                    <i class="fa-solid fa-ticket"></i>
+                </span>
+
+                <div>
+                    <strong>Thông tin chuyến đi</strong>
+                    <small>
+                        Khởi hành @ngayKhoiHanhText
+                    </small>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- MAIN TWO COLUMNS -->
+
+        <div class="ticket-main">
+
+            <!-- LEFT COLUMN -->
+
+            <div class="ticket-pane-left">
+
+                <!-- TOUR INFORMATION -->
+
+                <section class="ticket-section ticket-tour-section">
+
+                    <div class="ticket-section-title">
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            THÔNG TIN TOUR
+                        </span>
+                    </div>
+
+                    <div class="ticket-tour-head">
+
+                        <div class="ticket-tour-image"
+                             data-has-image="@(coAnh ? "true" : "false")">
+
+                            @if (coAnh)
+                            {
+                                <img src="@anhTour"
+                                     alt="Ảnh tour @tenTour"
+                                     loading="lazy"
+                                     onerror="this.parentElement.setAttribute('data-has-image','false')" />
+                            }
+
+                            <div class="ticket-tour-image-fallback">
+                                <i class="fa-solid fa-mountain-sun"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="ticket-tour-description">
+                            <span class="ticket-tour-label">
+                                HÀNH TRÌNH ĐÃ ĐẶT
+                            </span>
+
+                            <h2>@tenTour</h2>
+
+                            @if (!string.IsNullOrWhiteSpace(tour?.ThoiGian))
+                            {
+                                <p>
+                                    <i class="fa-regular fa-clock"></i>
+                                    @tour.ThoiGian
+                                </p>
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="ticket-info-grid">
+
+                        <div class="ticket-info-item">
+                            <span>Ngày khởi hành</span>
+                            <strong>@ngayKhoiHanhText</strong>
+                        </div>
+
+                        <div class="ticket-info-item">
+                            <span>Giờ khởi hành</span>
+                            <strong>@gioKhoiHanhText</strong>
+                        </div>
+
+                        <div class="ticket-info-item">
+                            <span>Địa điểm / hành trình</span>
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(tour?.DiaDiem)
+                                    ? "Đang cập nhật"
+                                    : tour.DiaDiem)
+                            </strong>
+                        </div>
+
+                        <div class="ticket-info-item">
+                            <span>Phương tiện</span>
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(tour?.PhuongTien)
+                                    ? "Đang cập nhật"
+                                    : tour.PhuongTien)
+                            </strong>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(tour?.MaTour))
+                        {
+                            <div class="ticket-info-item">
+                                <span>Mã tour</span>
+                                <strong>@tour.MaTour</strong>
+                            </div>
+                        }
+
+                        <div class="ticket-info-item">
+                            <span>Ngày đặt</span>
+                            <strong>@ngayDatText</strong>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- PASSENGERS -->
+
+                <section class="ticket-section">
+
+                    <div class="ticket-section-title">
+                        <span>
+                            <i class="fa-solid fa-users"></i>
+                            THÔNG TIN HÀNH KHÁCH
+                        </span>
+                    </div>
+
+                    <div class="ticket-passenger-summary">
+
+                        <div>
+                            <strong>@tongKhach</strong>
+                            <span>Tổng số khách</span>
+                        </div>
+
+                        <div>
+                            <strong>@nguoiLon</strong>
+                            <span>Người lớn</span>
+                        </div>
+
+                        <div>
+                            <strong>@treEm</strong>
+                            <span>Trẻ em</span>
+                        </div>
+
+                        <div>
+                            <strong>@treNho</strong>
+                            <span>Em bé</span>
+                        </div>
+
+                    </div>
+
+                    <div class="ticket-contact-grid">
+
+                        <div class="ticket-info-item">
+                            <span>Người đặt tour</span>
+                            <strong>@tenNguoiDat</strong>
+                        </div>
+
+                        <div class="ticket-info-item">
+                            <span>Số điện thoại</span>
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(soDienThoai)
+                                    ? "Chưa cập nhật"
+                                    : soDienThoai)
+                            </strong>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(emailNguoiDat))
+                        {
+                            <div class="ticket-info-item ticket-info-wide">
+                                <span>Email liên hệ</span>
+                                <strong>@emailNguoiDat</strong>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(ghiChu))
+                        {
+                            <div class="ticket-info-item ticket-info-wide">
+                                <span>Ghi chú đặt tour</span>
+                                <strong>@ghiChu</strong>
+                            </div>
+                        }
+
+                    </div>
+
+                </section>
+
+                <!-- USEFUL INFORMATION -->
+
+                <section class="ticket-support-strip">
+
+                    <div class="ticket-support-heading">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <strong>Chuẩn bị cho chuyến đi</strong>
+                    </div>
+
+                    <p>
+                        Có mặt tại điểm tập trung trước giờ
+                        khởi hành khoảng 30 phút và mang theo
+                        giấy tờ tùy thân cần thiết.
+                    </p>
+
+                    <div class="ticket-support-contact">
+                        <span>
+                            <i class="fa-regular fa-envelope"></i>
+                            happytrip@gmail.com
+                        </span>
+                        <span>
+                            <i class="fa-solid fa-phone"></i>
+                            +84 938 179 170
+                        </span>
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+
+            <aside class="ticket-pane-right">
+
+                <!-- PAYMENT -->
+
+                <section class="ticket-section ticket-summary">
+
+                    <div class="ticket-section-title">
+                        <span>
+                            <i class="fa-solid fa-receipt"></i>
+                            CHI TIẾT THANH TOÁN
+                        </span>
+                    </div>
+
+                    <span class="ticket-price-caption">
+                        Tổng giá trị đơn đặt tour
+                    </span>
+
+                    <div class="ticket-total-amount">
+                        @tongSauGiam.ToString("N0")
+                        <small>đ</small>
+                    </div>
+
+                    <div class="ticket-payment-rows">
+
+                        <div>
+                            <span>Tổng tiền gốc</span>
+                            <strong>@tongGoc.ToString("N0")đ</strong>
+                        </div>
+
+                        <div>
+                            <span>Giảm giá</span>
+                            <strong class="ticket-discount">
+                                -@soTienGiam.ToString("N0")đ
+                            </strong>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(maPhieu))
+                        {
+                            <div>
+                                <span>Mã ưu đãi</span>
+                                <strong>@maPhieu</strong>
+                            </div>
+                        }
+
+                        <div>
+                            <span>Phương thức</span>
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(phuongThuc)
+                                    ? "Chưa cập nhật"
+                                    : phuongThuc)
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Trạng thái thanh toán</span>
+                            <strong>@thanhToanText</strong>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(trangThaiThanhToan))
+                        {
+                            <div>
+                                <span>Chi tiết trạng thái</span>
+                                <strong>@trangThaiThanhToan</strong>
+                            </div>
+                        }
+
+                    </div>
+
+                </section>
+
+                <!-- QR CHECK-IN -->
+
+                @if (hienThiQr)
+                {
+                    <section class="ticket-section ticket-qr-section">
+
+                        <div class="ticket-section-title">
+                            <span>
+                                <i class="fa-solid fa-qrcode"></i>
+                                VÉ CHECK-IN
+                            </span>
+                        </div>
+
+                        <div class="ticket-qr">
+
+                            <div class="ticket-qr-frame">
+
+                                <img src="@checkinQrUrl"
+                                     alt="Mã QR check-in đơn @maBooking"
+                                     width="160"
+                                     height="160" />
+
+                            </div>
+
+                            <strong>Mã QR của bạn</strong>
+
+                            <p>
+                                Xuất trình mã khi làm thủ tục
+                                theo hướng dẫn của ban tổ chức tour.
+                            </p>
+
+                            <span class="ticket-qr-code">
+                                @maBooking
+                            </span>
+
+                        </div>
+
+                    </section>
+                }
+                else
+                {
+                    <section class="ticket-section ticket-qr-notice">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <div>
+                            <strong>Vé check-in chưa khả dụng</strong>
+
+                            <p>
+                                Mã QR chỉ hiển thị khi đơn hàng
+                                đáp ứng điều kiện của hệ thống.
+                            </p>
+                        </div>
+
+                    </section>
+                }
+
+                <!-- ACTIONS -->
+
+                <section class="ticket-section ticket-action-section">
+
+                    <div class="ticket-section-title">
+                        <span>
+                            <i class="fa-solid fa-arrow-pointer"></i>
+                            THAO TÁC
+                        </span>
+                    </div>
+
+                    <div class="ticket-actions">
+
+                        <a class="ticket-btn ticket-btn-primary"
+                           asp-controller="TaiKhoan"
+                           asp-action="DonCuaToi">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Quay lại đơn của tôi
+                        </a>
+
+                        <a class="ticket-btn ticket-btn-outline"
+                           href="mailto:happytrip@gmail.com">
+
+                            <i class="fa-regular fa-envelope"></i>
+                            Liên hệ hỗ trợ
+                        </a>
+
+                        @if (trangThai == "DaHuy" ||
+                             trangThai == "HetHanThanhToan")
+                        {
+                            <a class="ticket-btn ticket-btn-sand"
+                               href="@Url.Action(
+                                   "NhapThongTin",
+                                   "DatTour",
+                                   new
+                                   {
+                                       idTour = Model.IdTour,
+                                       idLich = Model.IdLich,
+                                       adult = nguoiLon,
+                                       child = treEm,
+                                       baby = treNho
+                                   })">
+
+                                <i class="fa-solid fa-rotate-right"></i>
+                                Đặt lại đơn mới
+                            </a>
+                        }
+
+                    </div>
+
+                    @if (trangThai == "ChoThanhToan" ||
+                         trangThai == "ChoXacNhanTienMat")
+                    {
+                        <form asp-controller="DatTour"
+                              asp-action="HuyDonTuKhach"
+                              method="post"
+                              class="ticket-cancel-form"
+                              onsubmit="return confirm('Bạn chắc chắn muốn hủy đơn này?');">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden"
+                                   name="idDon"
+                                   value="@Model.IdDon" />
+
+                            <label for="ticketCancelReason">
+                                Lý do hủy đơn (không bắt buộc)
+                            </label>
+
+                            <textarea id="ticketCancelReason"
+                                      name="lyDoHuy"
+                                      rows="2"
+                                      maxlength="500"
+                                      placeholder="Nhập lý do nếu có..."></textarea>
+
+                            <button type="submit"
+                                    class="ticket-btn ticket-btn-cancel">
+
+                                <i class="fa-solid fa-xmark"></i>
+                                Hủy đơn đặt tour
+                            </button>
+
+                        </form>
+                    }
+
+                </section>
+
+            </aside>
+
+        </div>
+
+    </div>
+</div>
